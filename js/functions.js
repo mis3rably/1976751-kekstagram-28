@@ -1,10 +1,6 @@
 const checkStringLength = (string, length) => string.length <= length;
 
-const isPalindrome = function (palindrome) {
-  palindrome = palindrome.replaceAll(' ', '');
-  palindrome = palindrome.toLowerCase();
-  return palindrome === palindrome.split('').reverse().join('');
-};
+const isPalindrome = (palindrome) => palindrome.split('').reverse().join('').replaceAll(' ', '').toLowerCase() === palindrome.replaceAll(' ', '').toLowerCase();
 
 const numbersOnly = function (string) {
   let result = '';
@@ -16,10 +12,7 @@ const numbersOnly = function (string) {
       result += string[i];
     }
   }
-  if (result === '') {
-    return NaN;
-  }
-  return result;
+  return parseInt(result, 10);
 };
 
 const stringExtend = function(initialString, minLength, additionalSymbols) {
@@ -37,4 +30,4 @@ const stringExtend = function(initialString, minLength, additionalSymbols) {
 checkStringLength('проверяемая строка', 20);
 isPalindrome('ДовОд');
 numbersOnly('а я томат');
-(stringExtend('qwerty', 4, '0'));
+stringExtend('qwerty', 4, '0');
