@@ -26,11 +26,8 @@ const LIKES_MAX = 200;
 const COMMENTS_AMOUNT = 3;
 const DESCRIPTION_AMOUNT = 30;
 
-function getUniqueRangeInt(min, max) {
+function getUniqueRangeInt(min = 0, max) {
   const prevID = [];
-  if (min === undefined) {
-    min = 0;
-  }
   return function() {
     if (prevID.length >= max - 1) {
       return null;
@@ -71,3 +68,4 @@ const generateDescription = () => ({
 });
 
 const photoDescription = Array.from({length: DESCRIPTION_AMOUNT}, generateDescription); // eslint-disable-line
+console.log(photoDescription);
