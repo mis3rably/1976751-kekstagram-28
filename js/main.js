@@ -68,4 +68,3 @@ const generateDescription = () => ({
 });
 
 const photoDescription = Array.from({length: DESCRIPTION_AMOUNT}, generateDescription); // eslint-disable-line
-console.log(photoDescription);
