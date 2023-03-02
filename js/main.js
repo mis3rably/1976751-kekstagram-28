@@ -15,28 +15,28 @@ const authorList = [
   'Дарья'
 ];
 
+const ID_MIN_VALUE = 1;
+const ID_MAX_VALUE = 1;
+const URL_ID_MIN_VALUE = 1;
+const URL_ID_MAX_VALUE = 1;
+const AVATAR_MIN_RANGE = 1;
+const AVATAR_MAX_RANGE = 1;
+const LIKES_MIN = 15;
+const LIKES_MAX = 200;
+const COMMENTS_AMOUNT = 3;
+const DESCRIPTION_AMOUNT = 30;
+
 function getUniqueRangeInt(min, max) {
   const prevID = [];
+  if (min === undefined) {
+    min = 0;
+  }
   return function() {
     if (prevID.length >= max - 1) {
       return null;
-    } else {
-      let result = min;
-      result++;
-      while (prevID.includes(result)) {
-        result++;
-      }
-      prevID.push(result);
-      return result;
     }
-  };
-}
-
-function getUniqueInt() {
-  const prevID = [];
-  let result = 0;
-
-  return function() {
+    let result = min;
+    result++;
     while (prevID.includes(result)) {
       result++;
     }
@@ -51,13 +51,13 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 }
 
-const getUniqueID = getUniqueRangeInt(1, 25);
-const getUniqueUrlID = getUniqueRangeInt(1, 25);
-const getCommentID = getUniqueInt();
+const getUniqueID = getUniqueRangeInt(ID_MIN_VALUE, ID_MAX_VALUE);
+const getUniqueUrlID = getUniqueRangeInt(URL_ID_MIN_VALUE, URL_ID_MAX_VALUE);
+const getCommentID = getUniqueRangeInt();
 
 const generateComments = () => ({
   id: getCommentID(),
-  avatar: `img/avatar-${getRandomInt(1, 6)}.svg`,
+  avatar: `img/avatar-${getRandomInt(AVATAR_MIN_RANGE, AVATAR_MAX_RANGE)}.svg`,
   message : messageList[getRandomInt(0, messageList.length - 1)],
   name: authorList[getRandomInt(0, messageList.length - 1)],
 });
@@ -66,8 +66,8 @@ const generateDescription = () => ({
   id: getUniqueID(),
   url: `photos/${getUniqueUrlID()}.jpg`,
   description: 'Фото сделано одним прекрасным летним днём.',
-  likes: getRandomInt(15, 200),
-  comments: Array.from({length: 3}, generateComments)
+  likes: getRandomInt(LIKES_MIN, LIKES_MAX),
+  comments: Array.from({length: COMMENTS_AMOUNT}, generateComments)
 });
 
-const photoDescription = Array.from({length: 30}, generateDescription); // eslint-disable-line
+const photoDescription = Array.from({length: DESCRIPTION_AMOUNT}, generateDescription); // eslint-disable-line
