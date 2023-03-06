@@ -27,7 +27,4 @@ const stringExtend = function(initialString, minLength, additionalSymbols) {
   return additionalSymbolsMultiplied + initialString;
 };
 
-checkStringLength('проверяемая строка', 20);
-isPalindrome('ДовОд');
-numbersOnly('а я томат');
-stringExtend('qwerty', 4, '0');
+export {checkStringLength, isPalindrome, numbersOnly, stringExtend};
