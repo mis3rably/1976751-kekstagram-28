@@ -15,16 +15,16 @@ const authorList = [
   'Дарья'
 ];
 
-const ID_MIN_VALUE = 1;
-const ID_MAX_VALUE = 1;
-const URL_ID_MIN_VALUE = 1;
-const URL_ID_MAX_VALUE = 1;
+const ID_MIN_VALUE = 0;
+const ID_MAX_VALUE = 26;
+const URL_ID_MIN_VALUE = 0;
+const URL_ID_MAX_VALUE = 26;
 const AVATAR_MIN_RANGE = 1;
-const AVATAR_MAX_RANGE = 1;
+const AVATAR_MAX_RANGE = 6;
 const LIKES_MIN = 15;
 const LIKES_MAX = 200;
 const COMMENTS_AMOUNT = 3;
-const DESCRIPTION_AMOUNT = 30;
+const DESCRIPTION_AMOUNT = 25;
 
 function getUniqueRangeInt(min = 0, max) {
   const prevID = [];
@@ -61,12 +61,12 @@ const generateComments = () => ({
 
 const generateDescription = () => ({
   id: getUniqueID(),
-  url: `photos/${getUniqueUrlID()}.jpg`,
+  url: `../photos/${getUniqueUrlID()}.jpg`,
   description: 'Фото сделано одним прекрасным летним днём.',
   likes: getRandomInt(LIKES_MIN, LIKES_MAX),
   comments: Array.from({length: COMMENTS_AMOUNT}, generateComments)
 });
 
-const photoDescription = Array.from({length: DESCRIPTION_AMOUNT}, generateDescription); // eslint-disable-line
+const photoDescriptions = Array.from({length: DESCRIPTION_AMOUNT}, generateDescription); // eslint-disable-line
 
-export {photoDescription};
+export {photoDescriptions};
