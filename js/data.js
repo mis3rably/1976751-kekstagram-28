@@ -54,8 +54,8 @@ const getCommentID = getUniqueRangeInt();
 
 const generateComments = () => ({
   id: getCommentID(),
-  avatar: `img/avatar-${getRandomInt(AVATAR_MIN_RANGE, AVATAR_MAX_RANGE)}.svg`,
-  message : messageList[getRandomInt(0, messageList.length - 1)],
+  avatar: `../img/avatar-${getRandomInt(AVATAR_MIN_RANGE, AVATAR_MAX_RANGE)}.svg`,
+  message: messageList[getRandomInt(0, messageList.length - 1)],
   name: authorList[getRandomInt(0, messageList.length - 1)],
 });
 
