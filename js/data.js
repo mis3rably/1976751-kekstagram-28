@@ -67,6 +67,6 @@ const generateDescription = () => ({
   comments: Array.from({length: COMMENTS_AMOUNT}, generateComments)
 });
 
-const photoDescriptions = Array.from({length: DESCRIPTION_AMOUNT}, generateDescription); // eslint-disable-line
+const photoDescriptions = Array.from({length: DESCRIPTION_AMOUNT}, generateDescription);
 
 export {photoDescriptions};
