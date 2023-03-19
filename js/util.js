@@ -27,4 +27,8 @@ const stringExtend = function(initialString, minLength, additionalSymbols) {
   return additionalSymbolsMultiplied + initialString;
 };
 
-export {checkStringLength, isPalindrome, numbersOnly, stringExtend};
+const isEscKey = (evt) => evt.key === 'Escape';
+
+const isEnterKey = (evt) => evt.key === 'Enter';
+
+export {checkStringLength, isPalindrome, numbersOnly, stringExtend, isEscKey, isEnterKey};

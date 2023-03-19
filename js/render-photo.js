@@ -1,4 +1,5 @@
 import { photoDescriptions } from './data.js';
+import { isEnterKey, isEscKey } from './util.js';
 
 const picturesList = document.querySelector('.pictures');
 const fullInterface = document.querySelector('.big-picture');
@@ -38,12 +39,6 @@ const generateComments = function (index, pageIndex) {
   }
 };
 
-const onEscClose = function (evt) {
-  if (evt.key === 'Escape') {
-    closeFull(); // eslint-disable-line
-  }
-};
-
 const closeFull = function() {
   fullInterface.classList.add('hidden');
   commentBlock.innerHTML = '';
@@ -52,11 +47,25 @@ const closeFull = function() {
   closeButton.removeEventListener('click', () => {
     closeFull();
   });
+  picturesList.addEventListener('click', onPreviewClick);
   document.removeEventListener('keydown', onEscClose);
-  picturesList.addEventListener('click', onPreviewClick); // eslint-disable-line
+  picturesList.addEventListener('keydown', onEnterOpen);
 };
 
-const openFull = function(index) {
+function onEscClose (evt) {
+  if (isEscKey(evt)) {
+    closeFull();
+  }
+}
+
+function onEnterOpen (evt) {
+  if (isEnterKey(evt)) {
+    openFull(evt.target.dataset.id - 1);
+  }
+}
+
+
+function openFull (index) {
   const img = fullInterface.querySelector('.big-picture__img img');
   const likes = fullInterface.querySelector('.likes-count');
   const commentsCount = fullInterface.querySelector('.comments-count');
@@ -74,16 +83,20 @@ const openFull = function(index) {
   likes.textContent = photoDescriptions[index].likes;
   commentsCount.textContent = photoDescriptions[index].comments.length;
   document.addEventListener('keydown', onEscClose);
+  picturesList.removeEventListener('keydown', onEnterOpen);
   closeButton.addEventListener('click', () => {
     closeFull();
   });
-};
 
-const onPreviewClick = function(evt) {
+}
+
+function onPreviewClick (evt) {
   if (evt.target.matches('.picture__img')) {
     openFull(evt.target.closest('.picture').dataset.id - 1);
   }
   picturesList.removeEventListener('click', onPreviewClick);
-};
+}
 
 picturesList.addEventListener('click', onPreviewClick);
+
+picturesList.addEventListener('keydown', onEnterOpen);
