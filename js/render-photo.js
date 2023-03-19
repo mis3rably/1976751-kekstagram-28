@@ -5,15 +5,21 @@ const picturesList = document.querySelector('.pictures');
 const fullInterface = document.querySelector('.big-picture');
 const closeButton = fullInterface.querySelector('.big-picture__cancel');
 const commentBlock = fullInterface.querySelector('.social__comments');
+const commentsLoaderButton = fullInterface.querySelector('.comments-loader');
 
 let currentCommentPage = 1;
 
 const generateComments = function (index, pageIndex) {
-  const commentsAddAmount = 10;
+  const commentsAddAmount = 5;
   const commentsAmount = photoDescriptions[index].comments.length;
   currentCommentPage = pageIndex;
   const startRange = (currentCommentPage - 1) * commentsAddAmount;
   const endRange = startRange + commentsAddAmount > commentsAmount ? commentsAmount : startRange + commentsAddAmount;
+  const commentCounter = fullInterface.querySelector('.social__comment-count');
+
+  if (endRange === commentsAmount) {
+    commentsLoaderButton.classList.add('hidden');
+  }
 
   const generateCard = function(commentIndex) {
     const documentFragment = document.createDocumentFragment();
@@ -37,12 +43,15 @@ const generateComments = function (index, pageIndex) {
   for (let i = startRange; i < endRange; i++) {
     generateCard(i);
   }
+  commentCounter.innerHTML = `${commentBlock.childElementCount} из <span class="comments-count">${commentsAmount}</span> комментариев`;
+  // commentCounter.textContent = `${commentBlock.childElementCount} из комментариев`;
 };
 
 const closeFull = function() {
   fullInterface.classList.add('hidden');
   commentBlock.innerHTML = '';
   currentCommentPage = 1;
+  commentsLoaderButton.classList.remove('hidden');
   document.body.classList.remove('modal-open');
   closeButton.removeEventListener('click', () => {
     closeFull();
@@ -68,12 +77,7 @@ function onEnterOpen (evt) {
 function openFull (index) {
   const img = fullInterface.querySelector('.big-picture__img img');
   const likes = fullInterface.querySelector('.likes-count');
-  const commentsCount = fullInterface.querySelector('.comments-count');
   const description = fullInterface.querySelector('.social__caption');
-  const commentCounter = fullInterface.querySelector('.social__comment-count');
-  const commentsLoaderButton = fullInterface.querySelector('.comments-loader');
-  commentCounter.classList.add('hidden');
-  commentsLoaderButton.classList.add('hidden');
   description.textContent = photoDescriptions[index].description;
   fullInterface.classList.remove('hidden');
   document.body.classList.add('modal-open');
@@ -81,7 +85,9 @@ function openFull (index) {
   img.src = photoDescriptions[index].url;
   img.alt = photoDescriptions[index].description;
   likes.textContent = photoDescriptions[index].likes;
-  commentsCount.textContent = photoDescriptions[index].comments.length;
+  commentsLoaderButton.addEventListener('click', () => {
+    generateComments(index, currentCommentPage + 1);
+  });
   document.addEventListener('keydown', onEscClose);
   picturesList.removeEventListener('keydown', onEnterOpen);
   closeButton.addEventListener('click', () => {

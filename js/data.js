@@ -23,7 +23,7 @@ const AVATAR_MIN_RANGE = 1;
 const AVATAR_MAX_RANGE = 6;
 const LIKES_MIN = 15;
 const LIKES_MAX = 200;
-const COMMENTS_AMOUNT = 3;
+const COMMENTS_AMOUNT = 8;
 const DESCRIPTION_AMOUNT = 25;
 
 function getUniqueRangeInt(min = 0, max) {
