@@ -9,9 +9,30 @@ const commentsLoaderButton = fullInterface.querySelector('.comments-loader');
 
 let currentCommentPage = 1;
 
-const generateComments = function (index, pageIndex) {
+const generateComments = function(index, commentIndex) {
+  const documentFragment = document.createDocumentFragment();
+  const newComment = document.createElement('li');
+  const newCommentAvatar = document.createElement('img');
+  const newCommentText = document.createElement('p');
+  documentFragment.appendChild(newComment);
+  newComment.classList.add('social__comment');
+  newComment.classList.add('hidden');
+  newCommentAvatar.classList.add('social__picture');
+  newCommentAvatar.src = photoDescriptions[index].comments[commentIndex].avatar;
+  newCommentAvatar.setAttribute('width', 35);
+  newCommentAvatar.setAttribute('height', 35);
+  newCommentAvatar.alt = photoDescriptions[index].comments[commentIndex].name;
+  newComment.appendChild(newCommentAvatar);
+  newCommentText.classList.add('social__text');
+  newCommentText.textContent = photoDescriptions[index].comments[commentIndex].message;
+  newComment.appendChild(newCommentText);
+  commentBlock.appendChild(documentFragment);
+};
+
+const loadComments = function (index, pageIndex) {
   const commentsAddAmount = 5;
   const commentsAmount = photoDescriptions[index].comments.length;
+  const commentsList = commentBlock.children;
   currentCommentPage = pageIndex;
   const startRange = (currentCommentPage - 1) * commentsAddAmount;
   const endRange = startRange + commentsAddAmount > commentsAmount ? commentsAmount : startRange + commentsAddAmount;
@@ -21,30 +42,11 @@ const generateComments = function (index, pageIndex) {
     commentsLoaderButton.classList.add('hidden');
   }
 
-  const generateCard = function(commentIndex) {
-    const documentFragment = document.createDocumentFragment();
-    const newComment = document.createElement('li');
-    const newCommentAvatar = document.createElement('img');
-    const newCommentText = document.createElement('p');
-    documentFragment.appendChild(newComment);
-    newComment.classList.add('social__comment');
-    newCommentAvatar.classList.add('social__picture');
-    newCommentAvatar.src = photoDescriptions[index].comments[commentIndex].avatar;
-    newCommentAvatar.setAttribute('width', 35);
-    newCommentAvatar.setAttribute('height', 35);
-    newCommentAvatar.alt = photoDescriptions[index].comments[commentIndex].name;
-    newComment.appendChild(newCommentAvatar);
-    newCommentText.classList.add('social__text');
-    newCommentText.textContent = photoDescriptions[index].comments[commentIndex].message;
-    newComment.appendChild(newCommentText);
-    commentBlock.appendChild(documentFragment);
-  };
-
   for (let i = startRange; i < endRange; i++) {
-    generateCard(i);
+    commentsList[i].classList.remove('hidden');
   }
+
   commentCounter.innerHTML = `${commentBlock.childElementCount} из <span class="comments-count">${commentsAmount}</span> комментариев`;
-  // commentCounter.textContent = `${commentBlock.childElementCount} из комментариев`;
 };
 
 const closeFull = function() {
@@ -81,12 +83,15 @@ function openFull (index) {
   description.textContent = photoDescriptions[index].description;
   fullInterface.classList.remove('hidden');
   document.body.classList.add('modal-open');
-  generateComments(index, currentCommentPage);
   img.src = photoDescriptions[index].url;
   img.alt = photoDescriptions[index].description;
   likes.textContent = photoDescriptions[index].likes;
+  for (let i = 0; i < photoDescriptions[index].comments.length; i++) {
+    generateComments(index, i);
+  }
+  loadComments(index, currentCommentPage);
   commentsLoaderButton.addEventListener('click', () => {
-    generateComments(index, currentCommentPage + 1);
+    loadComments(index, currentCommentPage + 1);
   });
   document.addEventListener('keydown', onEscClose);
   picturesList.removeEventListener('keydown', onEnterOpen);
