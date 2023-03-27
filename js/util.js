@@ -1,4 +1,4 @@
-const checkStringLength = (string, length) => string.length <= length;
+const checkStringLength = (string) => string.length <= 140;
 
 const isPalindrome = (palindrome) => palindrome.split('').reverse().join('').replaceAll(' ', '').toLowerCase() === palindrome.replaceAll(' ', '').toLowerCase();
 
