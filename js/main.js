@@ -2,4 +2,4 @@ import './data.js';
 import './util.js';
 import './render-preview.js';
 import './render-photo.js';
-import './form-validation.js';
+import './form.js';
