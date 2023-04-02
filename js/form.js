@@ -1,6 +1,8 @@
+import { sendData } from './server.js';
 import { isEscKey } from './util.js';
 import { checkStringLength } from './util.js';
 
+const HASHTAG_AMOUNT = 5;
 const uploadInput = document.querySelector('#upload-file');
 const formModal = document.querySelector('.img-upload__overlay');
 const form = document.querySelector('#upload-select-image');
@@ -12,7 +14,6 @@ const scaleValue = formModal.querySelector('.scale__control--value');
 const decreaseScaleButton = formModal.querySelector('.scale__control--smaller');
 const increaseScaleButton = formModal.querySelector('.scale__control--bigger');
 const imagePreview = formModal.querySelector('.img-upload__preview img');
-const HASHTAG_AMOUNT = 5;
 const effectsList = formModal.querySelector('.effects__list');
 const sliderContainer = formModal.querySelector('.effect-level');
 const slider = formModal.querySelector('.effect-level__slider');
@@ -25,6 +26,17 @@ const effects = [
   'effects__preview--phobos',
   'effects__preview--heat'
 ];
+const successSubmitBlock = document.querySelector('#success')
+  .content
+  .querySelector('.success')
+  .cloneNode(true);
+const successButton = successSubmitBlock.querySelector('.success__button');
+
+const errorSubmitBlock = document.querySelector('#error')
+  .content
+  .querySelector('.error')
+  .cloneNode(true);
+const errorButton = errorSubmitBlock.querySelector('.error__button');
 
 const getEffect = (arr) => {
   let result;
@@ -36,6 +48,72 @@ const getEffect = (arr) => {
     });
   });
   return result;
+};
+
+function onClickCloseSuccess () {
+  successSubmitBlock.remove();
+  successButton.removeEventListener('click', onClickCloseSuccess);
+  document.removeEventListener('keydown', onEscCloseSuccess);
+  document.removeEventListener('click', onClickOutsideSuccess);
+}
+
+function onClickCloseError () {
+  errorSubmitBlock.remove();
+  errorButton.removeEventListener('click', onClickCloseError);
+  document.removeEventListener('keydown', onEscCloseError);
+  document.removeEventListener('click', onClickOutsideError);
+}
+
+function onEscCloseSuccess (evt) {
+  if (isEscKey(evt)) {
+    document.querySelector('.success').remove();
+    successButton.removeEventListener('click', onClickCloseSuccess);
+    document.removeEventListener('keydown', onEscCloseSuccess);
+    document.removeEventListener('click', onClickOutsideSuccess);
+  }
+}
+
+function onEscCloseError (evt) {
+  if (isEscKey(evt)) {
+    document.querySelector('.error').remove();
+    errorButton.removeEventListener('click', onClickCloseError);
+    errorButton.removeEventListener('keydown', onEscCloseError);
+    document.removeEventListener('click', onClickOutsideError);
+    document.addEventListener('keydown', onEscClose);
+  }
+}
+
+function onClickOutsideError (evt) {
+  const errorModal = document.querySelector('.error');
+  if (!document.querySelector('.error__inner').contains(evt.target)) {
+    errorModal.remove();
+    document.removeEventListener('click', onClickOutsideError);
+  }
+}
+
+function onClickOutsideSuccess (evt) {
+  const successModal = document.querySelector('.success');
+  if (!document.querySelector('.success__inner').contains(evt.target)) {
+    successModal.remove();
+    document.removeEventListener('click', onClickOutsideSuccess);
+  }
+}
+
+const generateSubmitMessage = (type) => {
+  const documentFragment = document.createDocumentFragment();
+  if (type === 'submit') {
+    successButton.addEventListener('click', onClickCloseSuccess);
+    documentFragment.appendChild(successSubmitBlock);
+    document.addEventListener('keydown', onEscCloseSuccess);
+    document.addEventListener('click', onClickOutsideSuccess);
+  } else {
+    documentFragment.appendChild(errorSubmitBlock);
+    document.addEventListener('keydown', onEscCloseError);
+    errorButton.addEventListener('click', onClickCloseError);
+    document.removeEventListener('keydown', onEscClose);
+    document.addEventListener('click', onClickOutsideError);
+  }
+  document.body.appendChild(documentFragment);
 };
 
 const changeEffectIntensity = (applyingEffect) => {
@@ -237,7 +315,15 @@ pristine.addValidator(hashtagInput, validateHashtag, 'Проверьте пра�
 const onSubmitValidate = (evt) => {
   evt.preventDefault();
   if (pristine.validate()) {
-    form.submit();
+    const formData = new FormData(form);
+    sendData(formData)
+      .then(() => {
+        closeForm();
+        generateSubmitMessage('submit');
+      })
+      .catch(() => {
+        generateSubmitMessage('error');
+      });
   }
 };
 
