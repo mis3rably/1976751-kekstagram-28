@@ -15,6 +15,8 @@ const numbersOnly = function (string) {
   return parseInt(result, 10);
 };
 
+const descendingCommentsOrder = (photoA, photoB) => photoB.comments.length - photoA.comments.length;
+
 const stringExtend = function(initialString, minLength, additionalSymbols) {
   if (initialString.length >= minLength) {
     return initialString;
@@ -27,8 +29,17 @@ const stringExtend = function(initialString, minLength, additionalSymbols) {
   return additionalSymbolsMultiplied + initialString;
 };
 
+function debounce (callback, timeoutDelay = 500) {
+  let timeoutId;
+
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+}
+
 const isEscKey = (evt) => evt.key === 'Escape';
 
 const isEnterKey = (evt) => evt.key === 'Enter';
 
-export {checkStringLength, isPalindrome, numbersOnly, stringExtend, isEscKey, isEnterKey};
+export {checkStringLength, isPalindrome, numbersOnly, stringExtend, isEscKey, isEnterKey, descendingCommentsOrder, debounce};

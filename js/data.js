@@ -42,6 +42,17 @@ function getUniqueRangeInt(min = 0, max) {
   };
 }
 
+const generateUniqueNumbersArr = (max, arrLength) => {
+  const arr = [];
+  while(arr.length < arrLength){
+    const r = Math.floor(Math.random() * max) + 1;
+    if(arr.indexOf(r) === -1) {
+      arr.push(r);
+    }
+  }
+  return arr;
+};
+
 function getRandomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -69,4 +80,4 @@ const generateDescription = () => ({
 
 const photoDescriptions = Array.from({length: DESCRIPTION_AMOUNT}, generateDescription);
 
-export {photoDescriptions};
+export {photoDescriptions, generateUniqueNumbersArr};
