@@ -1,5 +1,5 @@
 import { generateUniqueNumbersArr } from './data.js';
-import { descendingLikesOrder, debounce } from './util.js';
+import { descendingCommentsOrder, debounce } from './util.js';
 
 const photoTemplate = document.querySelector('#picture')
   .content
@@ -55,7 +55,7 @@ const sortPhotos = (data, sortId) => {
     case 'filter-discussed': {
       generatePreviews(data
         .slice()
-        .sort(descendingLikesOrder));
+        .sort(descendingCommentsOrder));
       break;
     }
     default:

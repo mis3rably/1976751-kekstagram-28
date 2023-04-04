@@ -15,7 +15,7 @@ const numbersOnly = function (string) {
   return parseInt(result, 10);
 };
 
-const descendingLikesOrder = (photoA, photoB) => photoB.likes - photoA.likes;
+const descendingCommentsOrder = (photoA, photoB) => photoB.comments.length - photoA.comments.length;
 
 const stringExtend = function(initialString, minLength, additionalSymbols) {
   if (initialString.length >= minLength) {
@@ -42,4 +42,4 @@ const isEscKey = (evt) => evt.key === 'Escape';
 
 const isEnterKey = (evt) => evt.key === 'Enter';
 
-export {checkStringLength, isPalindrome, numbersOnly, stringExtend, isEscKey, isEnterKey, descendingLikesOrder, debounce};
+export {checkStringLength, isPalindrome, numbersOnly, stringExtend, isEscKey, isEnterKey, descendingCommentsOrder, debounce};
