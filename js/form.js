@@ -41,15 +41,13 @@ const errorSubmitBlock = document.querySelector('#error')
 const errorButton = errorSubmitBlock.querySelector('.error__button');
 
 const getEffect = (arr) => {
-  let result;
-  arr.forEach((element) => {
-    effects.forEach((effect) => {
-      if (element.includes(effect)) {
-        result = element;
+  for (let i = 0; i < arr.length; i++) {
+    for (let j = 0; j < effects.length; j++) {
+      if (arr[i].includes(effects[j])) {
+        return arr[i];
       }
-    });
-  });
-  return result;
+    }
+  }
 };
 
 function onClickCloseSuccess () {
@@ -276,7 +274,7 @@ function openForm () {
   increaseScaleButton.addEventListener('click', onClickIncrease);
   const file = fileChooser.files[0];
   const fileName = file.name.toLowerCase();
-  const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+  const matches = FILE_TYPES.some((item) => fileName.endsWith(item));
   if (matches) {
     imagePreview.src = URL.createObjectURL(file);
   }
