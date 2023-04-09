@@ -317,6 +317,7 @@ pristine.addValidator(hashtagInput, validateHashtag, 'Проверьте пра�
 
 
 function closeForm () {
+  const currentEffect = getEffect(Array.from(imagePreview.classList));
   formModal.classList.add('hidden');
   document.body.classList.remove('modal-open');
   formCancelButton.removeEventListener('click', onClickCloseForm);
@@ -328,7 +329,7 @@ function closeForm () {
   hashtagInput.value = '';
   effectDefault.checked = true;
   imagePreview.style.transform = '';
-  imagePreview.classList.remove(getEffect(Array.from(imagePreview.classList)));
+  imagePreview.classList.remove(currentEffect);
   imagePreview.style.filter = '';
   scaleValue.value = '100%';
   imagePreview.src = 'img/upload-default-image.jpg';
