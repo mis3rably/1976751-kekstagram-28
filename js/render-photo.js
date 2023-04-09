@@ -11,7 +11,7 @@ let currentFullPhoto;
 
 let currentCommentPage = 0;
 
-const generateComments = function(index, commentIndex, data) {
+const generateComments = (index, commentIndex, data) => {
   const documentFragment = document.createDocumentFragment();
   const newComment = document.createElement('li');
   const newCommentAvatar = document.createElement('img');
@@ -31,7 +31,7 @@ const generateComments = function(index, commentIndex, data) {
   commentBlock.appendChild(documentFragment);
 };
 
-const loadComments = function () {
+const loadComments = () => {
   const commentsAddAmount = 5;
   const commentsAmount = photoData[currentFullPhoto].comments.length;
   const commentsList = commentBlock.children;
@@ -67,7 +67,7 @@ const generateFull = (data, index) => {
   commentsLoaderButton.addEventListener('click', loadComments);
 };
 
-const closeFull = function() {
+const closeFull = () => {
   fullInterface.classList.add('hidden');
   commentBlock.innerHTML = '';
   currentCommentPage = 0;
