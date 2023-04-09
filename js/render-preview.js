@@ -1,4 +1,4 @@
-import { generateUniqueNumbersArr } from './data.js';
+import { generateUniqueNumbersArr } from './util.js';
 import { descendingCommentsOrder, debounce } from './util.js';
 
 const photoTemplate = document.querySelector('#picture')

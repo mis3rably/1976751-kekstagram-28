@@ -38,8 +38,19 @@ function debounce (callback, timeoutDelay = 500) {
   };
 }
 
+const generateUniqueNumbersArr = (max, arrLength) => {
+  const uniqueNumbers = [];
+  while(uniqueNumbers.length < arrLength){
+    const r = Math.floor(Math.random() * max) + 1;
+    if(uniqueNumbers.indexOf(r) === -1) {
+      uniqueNumbers.push(r);
+    }
+  }
+  return uniqueNumbers;
+};
+
 const isEscKey = (evt) => evt.key === 'Escape';
 
 const isEnterKey = (evt) => evt.key === 'Enter';
 
-export {checkStringLength, isPalindrome, numbersOnly, stringExtend, isEscKey, isEnterKey, descendingCommentsOrder, debounce};
+export {checkStringLength, isPalindrome, numbersOnly, stringExtend, isEscKey, isEnterKey, descendingCommentsOrder, debounce, generateUniqueNumbersArr};
