@@ -2,14 +2,14 @@ const checkStringLength = (string) => string.length <= 140;
 
 const descendingCommentsOrder = (photoA, photoB) => photoB.comments.length - photoA.comments.length;
 
-function debounce (callback, timeoutDelay = 500) {
+const debounce = (callback, timeoutDelay = 500) => {
   let timeoutId;
 
   return (...rest) => {
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
   };
-}
+};
 
 const generateUniqueNumbersArr = (max, arrLength) => {
   const uniqueNumbers = [];

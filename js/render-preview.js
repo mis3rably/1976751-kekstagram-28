@@ -11,6 +11,17 @@ const filterContainer = document.querySelector('.img-filters');
 
 const photoContainer = document.querySelector('.pictures');
 
+const createPreview = (preview, fragment) => {
+  const photo = photoTemplate.cloneNode(true);
+  photo.querySelector('.picture__img').src = `../${preview.url}`;
+  photo.querySelector('.picture__comments').textContent = preview.comments.length;
+  photo.querySelector('.picture__likes').textContent = preview.likes;
+  const dataAttr = document.createAttribute('data-id');
+  photo.setAttributeNode(dataAttr);
+  photo.dataset.id = preview.id;
+  fragment.append(photo);
+};
+
 const generatePreviews = (previewsList) => {
   const picturePreviewsList = photoContainer.querySelectorAll('.picture');
 
@@ -22,16 +33,7 @@ const generatePreviews = (previewsList) => {
 
   const photoFragment = document.createDocumentFragment();
 
-  previewsList.forEach((preview) => {
-    const photo = photoTemplate.cloneNode(true);
-    photo.querySelector('.picture__img').src = `../${preview.url}`;
-    photo.querySelector('.picture__comments').textContent = preview.comments.length;
-    photo.querySelector('.picture__likes').textContent = preview.likes;
-    const dataAttr = document.createAttribute('data-id');
-    photo.setAttributeNode(dataAttr);
-    photo.dataset.id = preview.id;
-    photoFragment.append(photo);
-  });
+  previewsList.forEach((preview) => createPreview(preview, photoFragment));
 
   photoContainer.append(photoFragment);
 };

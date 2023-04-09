@@ -52,33 +52,6 @@ const loadComments = function () {
   currentCommentPage++;
 };
 
-const closeFull = function() {
-  fullInterface.classList.add('hidden');
-  commentBlock.innerHTML = '';
-  currentCommentPage = 0;
-  commentsLoaderButton.classList.remove('hidden');
-  document.body.classList.remove('modal-open');
-  closeButton.removeEventListener('click', () => {
-    closeFull();
-  });
-  picturesList.addEventListener('click', onPreviewClick);
-  document.removeEventListener('keydown', onEscClose);
-  picturesList.addEventListener('keydown', onEnterOpen);
-  commentsLoaderButton.removeEventListener('click', loadComments);
-};
-
-function onEscClose (evt) {
-  if (isEscKey(evt)) {
-    closeFull();
-  }
-}
-
-function onEnterOpen (evt) {
-  if (isEnterKey(evt)) {
-    openFull(evt.target.dataset.id - 1);
-  }
-}
-
 const generateFull = (data, index) => {
   const img = fullInterface.querySelector('.big-picture__img img');
   const likes = fullInterface.querySelector('.likes-count');
@@ -94,7 +67,22 @@ const generateFull = (data, index) => {
   commentsLoaderButton.addEventListener('click', loadComments);
 };
 
-function openFull (index) {
+const closeFull = function() {
+  fullInterface.classList.add('hidden');
+  commentBlock.innerHTML = '';
+  currentCommentPage = 0;
+  commentsLoaderButton.classList.remove('hidden');
+  document.body.classList.remove('modal-open');
+  closeButton.removeEventListener('click', () => {
+    closeFull();
+  });
+  picturesList.addEventListener('click', onPreviewClick);
+  document.removeEventListener('keydown', onEscClose);
+  picturesList.addEventListener('keydown', onEnterOpen);
+  commentsLoaderButton.removeEventListener('click', loadComments);
+};
+
+const openFull = (index) => {
   getData()
     .then((data) => {
       photoData = data;
@@ -112,6 +100,18 @@ function openFull (index) {
       generateErrorMessage(err.message);
       picturesList.addEventListener('click', onPreviewClick);
     });
+};
+
+function onEscClose (evt) {
+  if (isEscKey(evt)) {
+    closeFull();
+  }
+}
+
+function onEnterOpen (evt) {
+  if (isEnterKey(evt)) {
+    openFull(evt.target.dataset.id - 1);
+  }
 }
 
 function onPreviewClick (evt) {
