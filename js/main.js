@@ -1,9 +1,10 @@
 import { getData, generateErrorMessage } from './server.js';
-import './data.js';
 import './util.js';
 import { generatePreviews, displayFilterOptions } from './render-preview.js';
 import './render-photo.js';
 import './form.js';
+
+const ERROR_MESSAGE = 'Ошибка при загрузке данных!';
 
 getData()
   .then((data) => {
@@ -11,5 +12,5 @@ getData()
     displayFilterOptions(data);
   })
   .catch(() => {
-    generateErrorMessage('Ошибка при загрузке данных!');
+    generateErrorMessage(ERROR_MESSAGE);
   });

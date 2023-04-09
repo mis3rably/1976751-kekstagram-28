@@ -1,6 +1,8 @@
 import { generateUniqueNumbersArr } from './util.js';
 import { descendingCommentsOrder, debounce } from './util.js';
 
+const MAX_NUMBER = 24;
+const PHOTO_AMOUNT = 10;
 const photoTemplate = document.querySelector('#picture')
   .content
   .querySelector('.picture');
@@ -41,7 +43,7 @@ const sortPhotos = (data, sortId) => {
       break;
     case 'filter-random': {
       const uniquePhotos = [];
-      generateUniqueNumbersArr(24, 10).forEach((id) => {
+      generateUniqueNumbersArr(MAX_NUMBER, PHOTO_AMOUNT).forEach((id) => {
         for (let i = 0; i < data.length; i++) {
           if (data[i].id === id) {
             uniquePhotos.push(data[i]);

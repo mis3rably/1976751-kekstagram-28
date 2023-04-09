@@ -42,13 +42,29 @@ const errorButton = errorSubmitBlock.querySelector('.error__button');
 
 const getEffect = (arr) => {
   for (let i = 0; i < arr.length; i++) {
-    for (let j = 0; j < effects.length; j++) {
-      if (arr[i].includes(effects[j])) {
-        return arr[i];
-      }
+    if (effects.includes(arr[i])) {
+      return arr[i];
     }
   }
 };
+
+const onEscClose = (evt) => {
+  if (isEscKey(evt)) {
+    closeForm();
+  }
+};
+
+const onClickCloseForm = () => {
+  closeForm();
+};
+
+const onUploadOpenForm = () => {
+  openForm();
+};
+
+function onEscStay (evt) {
+  evt.stopPropagation();
+}
 
 function onClickCloseSuccess () {
   successSubmitBlock.remove();
@@ -221,12 +237,6 @@ const onClickApplyEffect = () => {
   changeEffectIntensity(applyingEffect);
 };
 
-function onEscClose (evt) {
-  if (isEscKey(evt)) {
-    closeForm();
-  }
-}
-
 const isValidHashtagAmount = (amount) => amount <= HASHTAG_AMOUNT;
 
 const isUniqueElement = (array) => {
@@ -242,10 +252,6 @@ const validateHashtag = (value) => {
   }
   return hashtagList.every((hash) => hashtag.test(hash.trim())) && isUniqueElement(hashtagList) && isValidHashtagAmount(hashtagList.length);
 };
-
-function onEscStay (evt) {
-  evt.stopPropagation();
-}
 
 const onClickDecrease = () => {
   if (scaleValue.value !== '25%') {
@@ -266,7 +272,7 @@ const onClickIncrease = () => {
 function openForm () {
   formModal.classList.remove('hidden');
   document.body.classList.add('modal-open');
-  formCancelButton.addEventListener('click', closeForm);
+  formCancelButton.addEventListener('click', onClickCloseForm);
   document.addEventListener('keydown', onEscClose);
   descriptionInput.addEventListener('keydown', onEscStay);
   hashtagInput.addEventListener('keydown', onEscStay);
@@ -301,25 +307,6 @@ function openForm () {
   effectsList.addEventListener('click', onClickApplyEffect);
 }
 
-function closeForm () {
-  formModal.classList.add('hidden');
-  document.body.classList.remove('modal-open');
-  formCancelButton.removeEventListener('click', closeForm);
-  document.removeEventListener('keydown', onEscClose);
-  descriptionInput.removeEventListener('keydown', onEscStay);
-  hashtagInput.removeEventListener('keydown', onEscStay);
-  uploadInput.value = '';
-  descriptionInput.value = '';
-  hashtagInput.value = '';
-  effectDefault.checked = true;
-  scaleValue.value = '100%';
-  imagePreview.src = 'img/upload-default-image.jpg';
-  decreaseScaleButton.removeEventListener('click', onClickDecrease);
-  increaseScaleButton.removeEventListener('click', onClickIncrease);
-  effectsList.removeEventListener('click', onClickApplyEffect);
-  slider.noUiSlider.destroy();
-}
-
 const pristine = new Pristine(form, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper'
@@ -327,6 +314,28 @@ const pristine = new Pristine(form, {
 
 pristine.addValidator(descriptionInput, checkStringLength, 'До 140 символов');
 pristine.addValidator(hashtagInput, validateHashtag, 'Проверьте правильность введённых данных');
+
+
+function closeForm () {
+  formModal.classList.add('hidden');
+  document.body.classList.remove('modal-open');
+  formCancelButton.removeEventListener('click', onClickCloseForm);
+  document.removeEventListener('keydown', onEscClose);
+  descriptionInput.removeEventListener('keydown', onEscStay);
+  hashtagInput.removeEventListener('keydown', onEscStay);
+  uploadInput.value = '';
+  descriptionInput.value = '';
+  hashtagInput.value = '';
+  effectDefault.checked = true;
+  imagePreview.style.transform = '';
+  scaleValue.value = '100%';
+  imagePreview.src = 'img/upload-default-image.jpg';
+  decreaseScaleButton.removeEventListener('click', onClickDecrease);
+  increaseScaleButton.removeEventListener('click', onClickIncrease);
+  effectsList.removeEventListener('click', onClickApplyEffect);
+  pristine.reset();
+  slider.noUiSlider.destroy();
+}
 
 const onSubmitValidate = (evt) => {
   evt.preventDefault();
@@ -345,4 +354,4 @@ const onSubmitValidate = (evt) => {
 
 form.addEventListener('submit', onSubmitValidate);
 
-uploadInput.addEventListener('change', openForm);
+uploadInput.addEventListener('change', onUploadOpenForm);
