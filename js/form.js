@@ -328,6 +328,8 @@ function closeForm () {
   hashtagInput.value = '';
   effectDefault.checked = true;
   imagePreview.style.transform = '';
+  imagePreview.classList.remove(getEffect(Array.from(imagePreview.classList)));
+  imagePreview.style.filter = '';
   scaleValue.value = '100%';
   imagePreview.src = 'img/upload-default-image.jpg';
   decreaseScaleButton.removeEventListener('click', onClickDecrease);
