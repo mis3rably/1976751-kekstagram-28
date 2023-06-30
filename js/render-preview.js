@@ -13,7 +13,7 @@ const photoContainer = document.querySelector('.pictures');
 
 const createPreview = (preview, fragment) => {
   const photo = photoTemplate.cloneNode(true);
-  photo.querySelector('.picture__img').src = `/../${preview.url}`;
+  photo.querySelector('.picture__img').src = `./../${preview.url}`;
   photo.querySelector('.picture__comments').textContent = preview.comments.length;
   photo.querySelector('.picture__likes').textContent = preview.likes;
   const dataAttr = document.createAttribute('data-id');
